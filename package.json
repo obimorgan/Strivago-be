@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "watch": "jest --watchAll",
+    "watch": "NODE_OPTIONS=--experimental-vm-modules jest --watchAll",
     "dev": "ts-node-dev src",
-    "test": "jest",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
     "build": "tsc",
     "start": "node build"
   },

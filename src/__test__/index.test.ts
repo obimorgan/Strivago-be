@@ -24,13 +24,6 @@ describe("Testing Endpoints", () => {
                 done()
         })
     })
-        afterAll(done => {
-        mongoose.connection.dropDatabase()
-            .then(() => {
-                return mongoose.connection.close()
-            })
-            .then(() => { done() })
-        })
     const credentials = {
         email: "roby@morgan.com",
         password: "a;dlkgfhadfglkjafhg"
@@ -42,29 +35,40 @@ describe("Testing Endpoints", () => {
 
         expect(response.body._id).toBeDefined()
         userId = response.body._id
+        console.log("Registration")
     })
+
     
-    let token: string
-    
-    it("should return a valid access-token and refresher token when the user login", async () => {
-        const response = await request.post("/users/login").send(credentials)
+    let createAccessToken: string
+    it("should return a valid access-token token when the user login", async () => {
+        const response = await request.post("/user/login").send(credentials)
         console.log(response.body)
+
         expect(response.body.accessToken).toBeDefined()
+         console.log(response.body.accestoken)
 
         const { _id } = jwt.verify(response.body.accessToken.split(" ")[1], process.env.JWT_SECRET!) as { _id: string }
         expect(_id).toBe(userId)
 
-        token = response.body.accessToken
+        createAccessToken = response.body.accessToken
     })
 
-    it("should return a valid refresh token when the user login", async () => {
-        const response = await request.post("/users/login").send(credentials)
-        console.log(response.body)
-        expect(response.body.refreshToken).toBeDefined()
-        const { _id } = jwt.verify(response.body.refreshToken.split(" ")[1], process.env.JWT_SECRET!) as { _id: string }
-        expect(_id).toBe(userId)
-        token = response.body.refreshToken
-    })
 
+    // let creatRefreshToken: string
+    // it("should return a valid refresh token when the user login", async () => {
+    //     const response = await request.post("/user/login").send(credentials)
+    //     console.log(response.body)
+    //     expect(response.body.refreshToken).toBeDefined()
+    //     const { _id } = jwt.verify(response.body.refreshToken.split(" ")[1], process.env.JWT_SECRET!) as { _id: string }
+    //     expect(_id).toBe(userId)
+    //     creatRefreshToken = response.body.refreshToken
+    // })
+    afterAll(done => {
+    mongoose.connection.close()
+        // .then(() => {
+        //     return mongoose.connection.close()        
+        // })
+        .then(() => { done() })
+    })
 
 })
