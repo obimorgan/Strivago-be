@@ -37,6 +37,7 @@
     "typescript": "^4.5.5"
   },
   "dependencies": {
+    "@types/atob": "^2.1.2",
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "express": "^4.17.3",
