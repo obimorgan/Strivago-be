@@ -19,7 +19,7 @@ export const JWTAuthorization: RequestHandler = async (req, res, next) => {
 
     if (!token) return res.status(401).send({ error: "No token provided" })
 
-    const { _id } = jwt.verify(token, process.env.JWT_SECRET!) as { _id: string }
+    const { _id } = jwt.verify(token, JWT_SECRET!) as { _id: string }
 
     const user = await userModel.findById(_id)
 
